@@ -2,11 +2,7 @@ package ar.ro.day1;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.Stack;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Binary tree with duplication counter
@@ -63,14 +59,6 @@ public class BinaryTree {
         }
 
         return node;
-    }
-
-    /**
-     * To stream
-     * @return an ordered flow of tree numbers with a number of occurrences equal to the node counter
-     */
-    public Stream<Long> toStream() {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.ORDERED), false);
     }
 
     /**

@@ -1,13 +1,7 @@
 package ar.ro.day2;
 
-import java.util.*;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Binary tree with duplication counter
@@ -46,7 +40,7 @@ public class BinaryTree {
     }
 
 
-    private static class Ignore{
+    public static class Ignore{
         Long value;
         boolean first;
 
@@ -59,25 +53,7 @@ public class BinaryTree {
             return new Ignore(value,first);
         }
     }
-    /**
-     * No. of hits for parameter value
-     *
-     * @param value the searched value
-     * @return the number of hits
-     */
-    public int nbOfOccurrences(long value) {
-        Node current = root;
-        while (current != null) {
-            if (value == current.value) {
-                return current.count;
-            } else if (value < current.value) {
-                current = current.left;
-            } else {
-                current = current.right;
-            }
-        }
-        return 0;
-    }
+
 
     /**
      * Create a node for this value or increment the node counter if it already exists
@@ -257,61 +233,8 @@ public class BinaryTree {
         return node;
     }
 
-    /**
-     * To stream
-     *
-     * @return an ordered flow of tree numbers with a number of occurrences equal to the node counter
-     */
-    public Stream<Long> toStream() {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), Spliterator.ORDERED), false);
-    }
 
-    /**
-     * Iterator
-     *
-     * @return an iterator of the numbers making up this tree, with a number of occurrences equal to the node counter, sorted in ascending order
-     */
-    public Iterator<Long> iterator() {
-        return new Iterator<>() {
-            private final Stack<Node> stack = new Stack<>();
-            private Node current = root;
-            private int currentCount = 0;
-
-            {
-                pushLeft(current);
-            }
-
-            private void pushLeft(Node node) {
-                while (node != null) {
-                    stack.push(node);
-                    node = node.left;
-                }
-            }
-
-            @Override
-            public boolean hasNext() {
-                return !stack.isEmpty() || currentCount > 0;
-            }
-
-            @Override
-            public Long next() {
-                while (currentCount == 0 && !stack.isEmpty()) {
-                    current = stack.pop();
-                    pushLeft(current.right);
-                    currentCount = current.count;
-                }
-
-                if (currentCount > 0) {
-                    currentCount--;
-                    return current.value;
-                }
-
-                throw new NoSuchElementException();
-            }
-        };
-    }
-
-    static class Node {
+    public static class Node {
         final long value;
         int count;
         Node left;
